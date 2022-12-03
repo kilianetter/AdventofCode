@@ -17,8 +17,6 @@ abc = list(string.ascii_lowercase)
 ABC = list(string.ascii_uppercase)
 
 
-
-
 def splitItems(str:str):
     half = int(len(str)/2)
     return [str[0:half], str[half:len(str)]]
@@ -28,15 +26,6 @@ abcABC = abc + ABC
 prio = 0
 p = 0
 groups = []
-
-
-# for line in input:
-#     items = splitItems(line)
-#     for char in items[0]:
-#         if char in items[1]:
-#             p = abcABC.index(char)+1
-#             print(p)
-#     prio += p
 
 with open(filepath, 'r') as file:  
     for line in file.readlines():
