@@ -7,18 +7,6 @@ filepath = os.path.join(os.path.dirname(__file__), filename)
 
 # https://adventofcode.com/2022/day/5
 
-foo = """
-    [D]    
-[N] [C]    
-[Z] [M] [P]
- 1   2   3 
-"""
-
-x = 0
-y = 0
-
-x_size = 3
-y_size = 3
 
 crates = []
 lines = 0
