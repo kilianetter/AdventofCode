@@ -7,15 +7,15 @@ filepath = os.path.join(os.path.dirname(__file__), filename)
 
 # https://adventofcode.com/2022/day/6
 
-
-sig = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
-
-
 ### Hints:
 # could use a set for this problem for a more elegant solution
 # see https://www.youtube.com/watch?v=LvwsB-JpJmQ
 
 
+# examples
+sig = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
+
+# signal processing
 def findSOP(signal:str):
     for i in range(4, len(signal)):
         SOP = list(signal[i-4:i])
@@ -42,27 +42,18 @@ def findSOM(signal:str):
             break
     return i
 
-
-
-
+# get data
 with open(filepath, 'r') as file:  
         data = file.read()
 
-print(data)
 
-
+# get answers
 SOP = findSOP(data)
-
 SOM = findSOM(data)
 
-# get answer
-
-
-# set single to True
 print("Part one")
 print(SOP)
 
-# set single to False
 print("Part two")
 print(SOM)
 
