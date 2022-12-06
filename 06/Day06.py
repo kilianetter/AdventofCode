@@ -11,6 +11,10 @@ filepath = os.path.join(os.path.dirname(__file__), filename)
 sig = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
 
 
+### Hints:
+# could use a set for this problem for a more elegant solution
+# see https://www.youtube.com/watch?v=LvwsB-JpJmQ
+
 
 def findSOP(signal:str):
     for i in range(4, len(signal)):
