@@ -3,6 +3,8 @@ import math
 filename = "input.txt"
 filepath = os.path.join(os.path.dirname(__file__), filename)
 
+# https://adventofcode.com/2022/day/1
+
 elves = []
 cal = 0
 

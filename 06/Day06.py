@@ -5,7 +5,7 @@ example = "example.txt"
 filepath = os.path.join(os.path.dirname(__file__), filename)
 
 
-# https://adventofcode.com/2022/day/5
+# https://adventofcode.com/2022/day/6
 
 
 sig = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"

@@ -3,6 +3,8 @@ import math
 filename = "input.txt"
 filepath = os.path.join(os.path.dirname(__file__), filename)
 
+# https://adventofcode.com/2022/day/4
+
 def contained(str:str):
     elves = str.split(",")
     first = elves[0].split("-")
