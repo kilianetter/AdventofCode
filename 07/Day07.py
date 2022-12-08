@@ -11,27 +11,27 @@ filepath = os.path.join(os.path.dirname(__file__), filename)
 instructions = """
 $ cd /
 $ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k
+    dir a
+    14848514 b.txt
+    8504156 c.dat
+    dir d
+    $ cd a
+    $ ls
+        dir e
+        29116 f
+        2557 g
+        62596 h.lst
+        $ cd e
+            $ ls
+            584 i
+            $ cd ..
+        $ cd ..
+    $ cd d
+        $ ls
+        4060174 j
+        8033020 d.log
+        5626152 d.ext
+        7214296 k
 """
 
 cmds = [line for line in instructions.split("\n")]
@@ -41,16 +41,26 @@ root = []
 dirlist = []
 dirProp = {
     "name":"",
-    "size":""
+    "size":"",
+    "content": []
     }
+
+def dirdict(cmds:list, index:int):
+    return 0
+    
 
 
 
 def createDirList(cmds:list, dirlist):
     for i in range(len(cmds)):
-        if cmds[i] == "$ ls":
-            for j in range(i+1,i+3,1):
-                print(cmds[j])
+        if cmds[i].startswith("$ cd") and cmds[i] != "$ cd ..":
+            
+            directory = dirProp
+            directory["name"] = cmds[i].split(" ")[2]
+            
+        if cmds[i] != "$ cd .."
+            print(directory)
+
 
     return 0
 
@@ -75,15 +85,14 @@ with open(filepath, 'r') as file:
 
 
 
-
-SOP = findSOP(data)
-SOM = findSOM(data)
+p1 = 0
+p2 = 0
 
 # get answer
 
 print("Part one")
-print(SOP)
+print(p1)
 
 print("Part two")
-print(SOM)
+print(p2)
 
