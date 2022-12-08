@@ -27,15 +27,18 @@ print(grid)
 
 def viewN(pos:tuple, grid:list):
     x,y = pos
-    xmax = len(grid[0])-1
-    ymax = len(grid)-1
+    xmax = len(grid[0])
+    ymax = len(grid)
     visible = True
     if y == 0:
+        print(f'checking tree at {pos} with height {grid[y][x]} - is border')
         return visible
-    for ycheck in range(y,0,-1):
+    for ycheck in range(y,0-1,-1):
+        if (x, ycheck) == pos:
+            continue
         tree = grid[ycheck][x]
         print(f'checking tree at {pos} with height {grid[y][x]} against tree at {(x, ycheck)} with height {tree} - dir: N')
-        if tree > grid[y][x]:
+        if tree >= grid[y][x]:
             visible = False
             print(f'vN failed at {(x, ycheck)}')
             break
@@ -43,28 +46,60 @@ def viewN(pos:tuple, grid:list):
 
 def viewS(pos:tuple, grid:list):
     x,y = pos
-    xmax = len(grid[0])-1
-    ymax = len(grid)-1
+    xmax = len(grid[0])
+    ymax = len(grid)
     visible = True
     if y == ymax:
+        print(f'checking tree at {pos} with height {grid[y][x]} - is border')
         return visible
     for ycheck in range(y,ymax,1):
         if (x, ycheck) == pos:
             continue
         tree = grid[ycheck][x]
         print(f'checking tree at {pos} with height {grid[y][x]} against tree at {(x, ycheck)} with height {tree} - dir: S')
-        if tree > grid[y][x]:
+        if tree >= grid[y][x]:
             visible = False
             print(f'vS failed at {(x, ycheck)}')
             break
     return visible
 
-def viewEW(pos:tuple, grid:list):
+def viewE(pos:tuple, grid:list):
     x,y = pos
-    if grid[y][x] > min(grid[y]):
-        return True
-    else:
-        return False
+    xmax = len(grid[0])
+    ymax = len(grid)
+    visible = True
+    if x == xmax:
+        print(f'checking tree at {pos} with height {grid[y][x]} - is border')
+        return visible
+    for xcheck in range(x,xmax,1):
+        if (xcheck, y) == pos:
+            continue
+        tree = grid[y][xcheck]
+        print(f'checking tree at {pos} with height {grid[y][x]} against tree at {(xcheck, y)} with height {tree} - dir: E')
+        if tree >= grid[y][x]:
+            visible = False
+            print(f'vE failed at {(xcheck,y)}')
+            break
+    return visible
+
+def viewW(pos:tuple, grid:list):
+    x,y = pos
+    xmax = len(grid[0])
+    ymax = len(grid)
+    visible = True
+    if x == 0:
+        print(f'checking tree at {pos} with height {grid[y][x]} - is border')
+        return visible
+    for xcheck in range(x,-1,-1):
+        if (xcheck, y) == pos:
+            continue
+        tree = grid[y][xcheck]
+        print(f'checking tree at {pos} with height {grid[y][x]} against tree at {(xcheck, y)} with height {tree} - dir: W')
+        if tree >= grid[y][x]:
+            visible = False
+            print(f'vW failed at {(xcheck,y)}')
+            break
+    return visible
 
 
 
@@ -82,43 +117,88 @@ for row in grid:
 
 print('\n\n')
 
-result = 0
 
+with open(filepath, 'r') as file:  
+        lines = file.read().split("\n")[:-1]
+        grid = []       
+        for line in lines:
+            linestr = list(line)
+            height = [int(n) for n in linestr]
+            grid.append(height)
+
+
+
+
+
+
+# def look(pos:tuple, grid:list, dir:str="N"):
+#     x,y = pos
+#     xmax = len(grid[0])
+#     ymax = len(grid)
+
+# look((2,2),grid,dir="N")
+    
+
+
+#####
+print(len(grid[0]), len(grid))
 y=0
 # position as (x,y)
-
+result = 0
+score =[]
+inv = []
 for row in grid:
     x=0
     for col in row:
         pos = (x,y) 
         print(f'current position: {pos}')
         vN = viewN(pos, grid)
-        print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vN} to the North')
-        vS = viewS(pos, grid)
-        print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vS} to the South')
-        vEW = viewEW(pos, grid)
-        print('\n')
-        x += 1
-        if vN or vS or vEW:
+        if vN:
             result += 1
+            print(f'{pos} - {grid[y][x]} is visible from N')
+            x += 1
+            continue
+        # print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vN} to the North')
+        vS = viewS(pos, grid)
+        if vS:
+            result += 1
+            print(f'{pos} - {grid[y][x]} is visible from S')
+            x += 1
+            continue
+        # print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vS} to the South')
+        vE = viewE(pos, grid)
+        if vE:
+            result += 1
+            print(f'{pos} - {grid[y][x]} is visible from E')
+            x += 1
+            continue
+        # print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vE} to the East')
+        vW = viewW(pos, grid)
+        if vW:
+            result += 1
+            print(f'{pos} - {grid[y][x]} is visible from W')
+            x += 1
+            continue
+        # print(f'for tree with height {grid[y][x]} at {pos} tree visibility is {vW} to the West')
+        # print(vN, vS, vE, vW)
+        # print(f'{pos} - {grid[y][x]} is not visible')
+        inv.append(pos)
+        x += 1
+        
     y += 1
 
-
 print(result)
+print(inv)
 
-vN = viewN((2,3), grid)
-vS = viewS((2,3), grid)
-vEW = viewEW(pos, grid)
-print(grid[3][2], vN, vS, vEW)
-
-
-with open(filepath, 'r') as file:  
-        data = file.read()
+# vN = viewN((1,3), grid)
+# vS = viewS((1,3), grid)
+# vE = viewE((1,3), grid)
+# vW = viewW((1,3), grid)
+# print(grid[3][1], vN, vS, vE, vW)
 
 
 
-
-p1 = 0
+p1 = result
 p2 = 0
 
 # get answer
