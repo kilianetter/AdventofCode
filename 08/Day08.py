@@ -87,9 +87,7 @@ def viewW(pos:tuple, grid:list):
     xmax = len(grid[0])
     ymax = len(grid)
     visible = True
-    if x == 0:
-        print(f'checking tree at {pos} with height {grid[y][x]} - is border')
-        return visible
+
     for xcheck in range(x,-1,-1):
         if (xcheck, y) == pos:
             continue
@@ -100,6 +98,52 @@ def viewW(pos:tuple, grid:list):
             print(f'vW failed at {(xcheck,y)}')
             break
     return visible
+
+
+
+def view(pos:tuple, grid:list, direction:str="N"):
+    x,y = pos
+    xmax = len(grid[0])
+    ymax = len(grid)
+    visible = True
+    dist = 1
+    if direction == "N":
+        direct = (-1,0)
+    if direction == "S":
+        direct = (1,0)
+    if direction == "E":
+        direct = (0,1)
+    if direction == "W":
+        direct = (-1,0)
+
+    if x == 0 or x == xmax or y == 0 or y == ymax:
+        print(f'tree at {pos} with height {grid[y][x]} is on border')
+        visible = True 
+
+    
+    coords = [(nx,ny) for nx,ny in zip(pos,direct)]
+    print(coords)
+
+    for obstx,obsty in coords:
+        if (obstx,obsty) == pos:
+            print(f'tree at {pos} with height {grid[y][x]} is self')
+            continue
+        obstacle = grid[obsty][obstx]
+        print(f'checking tree at {pos} with height {grid[y][x]} against tree at {(obstx, obsty)} with height {obstacle} - dir: {direction}')
+        dist += 1
+        if obstacle >= grid[y][x]:
+            visible = False
+            print(f'vW failed at {(obstx,obsty)}')
+            break
+
+    return {"direction" : direction,  "distance": dist, "free" : visible}
+
+
+
+
+
+
+
 
 
 
@@ -115,29 +159,52 @@ grid = mat
 for row in grid:
     print(row)
 
+
+print(view((2,1),grid,direction="N"))
+print(view((2,1),grid,direction="S"))
+print(view((2,1),grid,direction="E"))
+print(view((2,1),grid,direction="W"))
+
+
+
+
+
 print('\n\n')
 
 
-with open(filepath, 'r') as file:  
-        lines = file.read().split("\n")[:-1]
-        grid = []       
-        for line in lines:
-            linestr = list(line)
-            height = [int(n) for n in linestr]
-            grid.append(height)
+# with open(filepath, 'r') as file:  
+#         lines = file.read().split("\n")[:-1]
+#         grid = []       
+#         for line in lines:
+#             linestr = list(line)
+#             height = [int(n) for n in linestr]
+#             grid.append(height)
+
+score = 0
+viewscore = []
+
+y=0
+for row in grid:
+    x=0
+    for col in row:
+        pos = (x,y)
+        vN = view(pos,grid,direction="N")
+        vS = view(pos,grid,direction="S")
+        vE = view(pos,grid,direction="E")
+        vW = view(pos,grid,direction="W")
+        treescore = vN["distance"] * vS["distance"] * vE["distance"] * vW["distance"]
+        viewscore.append(treescore)
+        if vN["free"] or vS["free"] or vE["free"] or vW["free"]:
+            score+=1
+        
+    y+=1
+
+
+print(score)
+print(max(viewscore))
 
 
 
-
-
-
-# def look(pos:tuple, grid:list, dir:str="N"):
-#     x,y = pos
-#     xmax = len(grid[0])
-#     ymax = len(grid)
-
-# look((2,2),grid,dir="N")
-    
 
 
 #####
