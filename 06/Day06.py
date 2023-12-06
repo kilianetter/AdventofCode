@@ -21,6 +21,11 @@ test = {
 "dist": [9, 40, 200]
 }
 
+test_2 = {
+"time": [71530],
+"dist": [940200]
+}
+
 
 data = {
 "time": [59, 79, 65, 75],
@@ -33,32 +38,29 @@ data_2 = {
 }
 
 
+def count_ways(record_time, record_dist):
+    count = 0
+    for speed in  range(0,record_time):
+        # press_time = 1
+        travel_time = record_time - speed 
+        dist = travel_time * speed
+
+        if dist > record_dist:
+            count += 1
+    return count
+
+
 def solve_first(data):
     records = zip(data["time"],data["dist"])
     result = 0
     for  record_time, record_dist in records:
-        # record_time = data["time"][0]
-        # record_dist = data["dist"][0]
-        speed = 0
-        count = 0
-        for press_time in  range(0,record_time):
-            # press_time = 1
-            travel_time = record_time - press_time
-
-            speed = press_time 
-            dist = travel_time * speed
-            if dist <= record_dist:
-                continue
-
-            count += 1
-            print(f'button press time: {press_time} ms')
-            print(f'distance traveled: {dist} mm')
-        print(f'there are {count} ways to beat the record\n')
+        cntr = count_ways(record_time, record_dist)
+        print(f'there are {cntr} ways to beat the record\n')
 
         if result != 0:
-            result *= count
+            result *= cntr
         else:
-            result += count
+            result += cntr
     return result
     
 
@@ -66,20 +68,22 @@ def solve_first(data):
 
 
 def solve_second(data):
-    time = 597123410321328 / 59796575
-    print(math.floor(time))
+    records = (*data["time"],*data["dist"])
+    record_time, record_dist = records
 
+    result = count_ways(record_time, record_dist)
+    print(f'there are {result} ways to beat the record\n')
     
-    pass
+    return result
 
 
 
 
 
 if __name__ == "__main__":
-    first = solve_first(test)
+    first = solve_first(data)
     print(f'the solution for the first puzzle is: \t {first}\n')
     
     
-    second = solve_second(data)
+    second = solve_second(data_2)
     print(f'the solution for the second puzzle is: \t {second}\n')
