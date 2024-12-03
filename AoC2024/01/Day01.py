@@ -32,10 +32,7 @@ def solve_first(data):
         for i in range(len(a)):
             mina = a.index(min(a)) 
             minb = b.index(min(b))
-
             dist += abs(int(a.pop(mina)) - int(b.pop(minb)))
-
-            print(dist)
 
     return dist
 
@@ -55,7 +52,7 @@ def solve_second(data):
 
 if __name__ == "__main__":
     print(data)
-    # first = solve_first(data)
-    # print(f'the solution for the first puzzle is: \t {first}')
+    first = solve_first(data)
+    print(f'the solution for the first puzzle is: \t {first}')
     second = solve_second(data)
     print(f'the solution for the second puzzle is: \t {second}')
